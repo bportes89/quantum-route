@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+python-multipart
+ortools
+qiskit
+qiskit-aer
+qiskit-algorithms
+pandas
+numpy
+pydantic
