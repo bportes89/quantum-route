@@ -67,7 +67,10 @@ export default function Home() {
                   <Play className="w-6 h-6 fill-black" />
                   Começar Agora
                 </button>
-                <button className="flex items-center gap-3 bg-gray-500/30 backdrop-blur-sm text-white px-8 py-3 rounded hover:bg-gray-500/40 transition-all font-bold text-lg hover:scale-105 active:scale-95 border border-white/10">
+                <button 
+                  onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="flex items-center gap-3 bg-gray-500/30 backdrop-blur-sm text-white px-8 py-3 rounded hover:bg-gray-500/40 transition-all font-bold text-lg hover:scale-105 active:scale-95 border border-white/10"
+                >
                   <Info className="w-6 h-6" />
                   Mais Informações
                 </button>
@@ -92,6 +95,48 @@ export default function Home() {
         ) : (
           <div className="animate-in fade-in slide-in-from-bottom-10 duration-700">
              <Dashboard data={data} onReset={() => setData(null)} />
+          </div>
+        )}
+
+        {/* Features Section (New Content) */}
+        {!data && (
+          <div id="features" className="relative z-20 py-24 bg-[#141414]">
+            <h2 className="text-3xl font-bold mb-12 text-center">Por que QuantumRoute?</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* Feature 1 */}
+              <div className="p-6 bg-[#1f1f1f] rounded-lg border border-[#333] hover:border-blue-500 transition-colors">
+                <div className="w-12 h-12 bg-blue-900/30 rounded-full flex items-center justify-center mb-4 text-blue-400">
+                  <Play className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold mb-2">Simulação Quântica</h3>
+                <p className="text-gray-400">
+                  Utilizamos algoritmos inspirados no QAOA para resolver problemas complexos de roteamento (VRPTW) em segundos.
+                </p>
+              </div>
+
+              {/* Feature 2 */}
+              <div className="p-6 bg-[#1f1f1f] rounded-lg border border-[#333] hover:border-green-500 transition-colors">
+                <div className="w-12 h-12 bg-green-900/30 rounded-full flex items-center justify-center mb-4 text-green-400">
+                  <Info className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold mb-2">Redução de Custos</h3>
+                <p className="text-gray-400">
+                  Economize até 15% em combustível e manutenção de frota com rotas matematicamente otimizadas.
+                </p>
+              </div>
+
+              {/* Feature 3 */}
+              <div className="p-6 bg-[#1f1f1f] rounded-lg border border-[#333] hover:border-purple-500 transition-colors">
+                <div className="w-12 h-12 bg-purple-900/30 rounded-full flex items-center justify-center mb-4 text-purple-400">
+                  <Play className="w-6 h-6 rotate-90" />
+                </div>
+                <h3 className="text-xl font-bold mb-2">Deploy Instantâneo</h3>
+                <p className="text-gray-400">
+                  Integração via API REST simples. Envie CSV, receba rotas. Sem infraestrutura complexa.
+                </p>
+              </div>
+            </div>
           </div>
         )}
       </main>
