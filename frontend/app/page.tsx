@@ -1,5 +1,6 @@
 "use client";
 import Link from 'next/link';
+import Pricing from '@/components/Pricing';
 import { Play, Info, ArrowRight, CheckCircle, Cpu, Zap, BarChart3 } from 'lucide-react';
 
 export default function Home() {
