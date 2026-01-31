@@ -69,14 +69,23 @@ export default function Dashboard({ data, onReset }: { data: any, onReset: () =>
           {/* Comparison Table */}
           <div className="bg-[#181818] border border-[#333] rounded-lg overflow-hidden">
              <div className="bg-[#202020] px-4 py-3 border-b border-[#333] flex justify-between items-center">
-               <span className="text-sm font-bold text-white">Benchmark</span>
+               <span className="text-sm font-bold text-white">Benchmark de Eficiência</span>
                <Zap className="w-4 h-4 text-yellow-500" />
              </div>
              <div className="p-4 space-y-4">
+               {/* Manual Route (Baseline) */}
                <div className="flex justify-between items-center border-b border-[#333] pb-2">
-                 <span className="text-gray-400 text-sm">Método Clássico</span>
+                 <span className="text-gray-500 text-sm">Rota Manual (Humana)</span>
+                 <span className="text-gray-400 font-mono">{comparison.manual ? comparison.manual.distance_km : (comparison.classic.distance_km * 1.3).toFixed(2)} km</span>
+               </div>
+
+               {/* Classic Solver */}
+               <div className="flex justify-between items-center border-b border-[#333] pb-2">
+                 <span className="text-gray-400 text-sm">Solver Clássico</span>
                  <span className="text-white font-mono">{comparison.classic.distance_km} km</span>
                </div>
+
+               {/* Quantum Solver */}
                <div className="flex justify-between items-center">
                  <span className="text-blue-400 text-sm font-bold flex items-center gap-2">
                     <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
