@@ -2,31 +2,14 @@ import pandas as pd
 from io import BytesIO
 from models.data_models import Order, Vehicle
 
-def parse_input_csv(file_content: bytes):
+def parse_input_csv(file_content_str: str):
     """
-    Parses the input CSV content.
+    Parses the input CSV content (already decoded string).
     The CSV format described has two sections or separate lines.
-    Wait, the user example shows two tables:
-    
-    order_id,lat,lng,demand,time_start,time_end
-    1,-23.55,-46.63,5,08:00,11:00
-    ...
-    
-    vehicle_id,capacity,start_lat,start_lng
-    V1,20,-23.55,-46.63
-    
-    Usually, this implies two separate CSVs or a single file with some separation.
-    Let's assume the user uploads a single file where maybe vehicles are listed after a blank line 
-    or we should look for headers.
-    
-    For robustness, let's assume the user might upload two files, OR one file with all info.
-    But the prompt says "Me manda seu CSV" (singular).
-    So it's likely one file with two sections.
     """
     
-    # Let's decode to string
-    content_str = file_content.decode('utf-8')
-    lines = content_str.splitlines()
+    # We expect a string now, not bytes
+    lines = file_content_str.splitlines()
     
     orders_data = []
     vehicles_data = []

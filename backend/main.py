@@ -31,7 +31,7 @@ async def optimize_route(file: UploadFile = File(...)):
         except UnicodeDecodeError:
             content_str = content.decode('latin-1') # Try fallback encoding
             
-        orders, vehicles = parse_input_csv(content)
+        orders, vehicles = parse_input_csv(content_str)
         
         # Run Classic Solver
         classic_routes, classic_dist, classic_time = solve_classic_vrptw(orders, vehicles)
