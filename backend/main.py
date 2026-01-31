@@ -4,9 +4,37 @@ from models.data_models import OptimizationResult
 from utils.csv_parser import parse_input_csv
 from solvers.classic_solver import solve_classic_vrptw
 from solvers.quantum_solver import solve_quantum_vrptw
+from utils.distance import haversine
 import uvicorn
 
 app = FastAPI(title="QuantumRoute API", version="1.0.0")
+
+def calculate_manual_route(orders, vehicles):
+    """
+    Calculates the distance if the driver follows the CSV order sequentially.
+    Depot -> Order 1 -> Order 2 ... -> Order N -> Depot
+    """
+    if not vehicles or not orders:
+        return 0.0, 0.0
+        
+    # Assume 1st vehicle does everything in order (simple baseline)
+    v = vehicles[0]
+    current_lat, current_lng = v.start_lat, v.start_lng
+    
+    total_dist = 0
+    
+    for o in orders:
+        dist = haversine(current_lat, current_lng, o.lat, o.lng)
+        total_dist += dist
+        current_lat, current_lng = o.lat, o.lng
+        
+    # Return to depot
+    total_dist += haversine(current_lat, current_lng, v.start_lat, v.start_lng)
+    
+    # Estimate time (assuming 30km/h city average for manual route which is usually inefficient)
+    total_time = (total_dist / 30.0) * 60.0
+    
+    return total_dist, total_time
 
 # CORS
 app.add_middleware(
