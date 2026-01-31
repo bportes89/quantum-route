@@ -34,4 +34,4 @@ class OptimizationResult(BaseModel):
     total_distance_km: float
     total_duration_min: float
     savings_percent: float
-    comparison: Dict[str, Any]
+    comparison: Dict[str, Dict[str, float]] # classic, quantum, and manual

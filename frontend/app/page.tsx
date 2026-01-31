@@ -208,6 +208,8 @@ export default function Home() {
            </div>
         </section>
 
+        <Pricing />
+
         {/* CTA Footer */}
         <section className="py-24 bg-gradient-to-b from-[#0a0a0a] to-black text-center px-8">
            <h2 className="text-4xl md:text-5xl font-bold mb-6">Pronto para o futuro?</h2>

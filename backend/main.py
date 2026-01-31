@@ -39,10 +39,16 @@ async def optimize_route(file: UploadFile = File(...)):
         # Run Quantum Solver (Simulated)
         quantum_routes, quantum_dist, quantum_time = solve_quantum_vrptw(orders, vehicles)
         
+        # Calculate Manual Baseline (Sequence from CSV)
+        manual_dist, manual_time = calculate_manual_route(orders, vehicles)
+
         # Compare
-        # Savings: (Classic - Quantum) / Classic * 100
-        if classic_dist > 0:
-            savings = ((classic_dist - quantum_dist) / classic_dist) * 100
+        # Savings: (Manual - Quantum) / Manual * 100
+        # We compare against MANUAL because that's the real client pain point.
+        if manual_dist > 0:
+            savings = ((manual_dist - quantum_dist) / manual_dist) * 100
+        elif classic_dist > 0:
+             savings = ((classic_dist - quantum_dist) / classic_dist) * 100
         else:
             savings = 0.0
             
@@ -52,6 +58,10 @@ async def optimize_route(file: UploadFile = File(...)):
             total_duration_min=round(quantum_time, 2),
             savings_percent=round(savings, 2),
             comparison={
+                "manual": {
+                    "distance_km": round(manual_dist, 2),
+                    "duration_min": round(manual_time, 2)
+                },
                 "classic": {
                     "distance_km": round(classic_dist, 2),
                     "duration_min": round(classic_time, 2)

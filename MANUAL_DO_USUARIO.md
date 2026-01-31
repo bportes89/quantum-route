@@ -55,3 +55,21 @@ Abaixo do mapa, você encontrará a lista de veículos e suas respectivas rotas 
 
 *   **Arquivo não carrega:** Verifique se está no formato `.csv` e se os números usam ponto (`.`) em vez de vírgula (`,`).
 *   **Erro de conexão:** Verifique se o servidor backend está rodando.
+
+---
+
+## 6. Modelo Comercial e Metrificação (FAQ)
+
+Se seu cliente perguntar "Como vocês cobram?" ou "Como provam que funciona?", utilize estas respostas:
+
+### Como é a metrificação? (Cobrança)
+Utilizamos o modelo de **Veículo Ativo Mensal (VAM)**.
+*   O cliente paga uma mensalidade fixa por veículo que utilizar o sistema no mês.
+*   Não há limite de rotas ou entregas.
+*   Exemplo: Se a frota tem 10 caminhões, mas só 5 saíram para entrega este mês, a fatura será sobre 5.
+
+### Como é medido o sucesso? (Economia)
+O sistema calcula automaticamente o **Delta de Eficiência** em cada rota:
+1.  **Cenário Base (Manual):** Simulamos quanto o motorista rodaria seguindo a ordem da planilha (sem inteligência).
+2.  **Cenário Otimizado (Quantum):** A rota calculada pelo nosso algoritmo.
+3.  **Economia Real:** A diferença entre (1) e (2). É comum observarmos reduções de **15% a 30%** na quilometragem total.
