@@ -101,40 +101,51 @@ export default function Home() {
         {/* Features Section (New Content) */}
         {!data && (
           <div id="features" className="relative z-20 py-24 bg-[#141414]">
-            <h2 className="text-3xl font-bold mb-12 text-center">Por que QuantumRoute?</h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {/* Feature 1 */}
-              <div className="p-6 bg-[#1f1f1f] rounded-lg border border-[#333] hover:border-blue-500 transition-colors">
-                <div className="w-12 h-12 bg-blue-900/30 rounded-full flex items-center justify-center mb-4 text-blue-400">
-                  <Play className="w-6 h-6" />
+            <div className="max-w-6xl mx-auto px-4">
+              <h2 className="text-4xl font-bold mb-4 text-center text-white">O Diferencial Quântico</h2>
+              <p className="text-xl text-gray-400 text-center mb-16 max-w-3xl mx-auto">
+                Não esperamos o futuro. Trouxemos ele para hoje.
+              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {/* Feature 1 */}
+                <div className="p-8 bg-[#1f1f1f]/50 backdrop-blur-sm rounded-xl border border-white/10 hover:border-blue-500/50 transition-all hover:bg-[#1f1f1f] group">
+                  <div className="w-14 h-14 bg-blue-900/20 rounded-lg flex items-center justify-center mb-6 text-blue-400 group-hover:scale-110 transition-transform">
+                    <Play className="w-7 h-7" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-3 text-white">Quantum-Inspired</h3>
+                  <p className="text-gray-400 leading-relaxed">
+                    A maioria das soluções usa heurísticas clássicas que travam em "mínimos locais". Nossos algoritmos usam 
+                    <span className="text-blue-400 font-semibold"> Tunelamento Quântico </span> 
+                    simulado para atravessar barreiras e encontrar o verdadeiro mínimo global de custos.
+                  </p>
                 </div>
-                <h3 className="text-xl font-bold mb-2">Simulação Quântica</h3>
-                <p className="text-gray-400">
-                  Utilizamos algoritmos inspirados no QAOA para resolver problemas complexos de roteamento (VRPTW) em segundos.
-                </p>
-              </div>
 
-              {/* Feature 2 */}
-              <div className="p-6 bg-[#1f1f1f] rounded-lg border border-[#333] hover:border-green-500 transition-colors">
-                <div className="w-12 h-12 bg-green-900/30 rounded-full flex items-center justify-center mb-4 text-green-400">
-                  <Info className="w-6 h-6" />
+                {/* Feature 2 */}
+                <div className="p-8 bg-[#1f1f1f]/50 backdrop-blur-sm rounded-xl border border-white/10 hover:border-green-500/50 transition-all hover:bg-[#1f1f1f] group">
+                  <div className="w-14 h-14 bg-green-900/20 rounded-lg flex items-center justify-center mb-6 text-green-400 group-hover:scale-110 transition-transform">
+                    <Info className="w-7 h-7" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-3 text-white">Vantagem Próxima</h3>
+                  <p className="text-gray-400 leading-relaxed">
+                    Não dependemos de computadores quânticos de milhões de dólares. Nossa tecnologia 
+                    <span className="text-green-400 font-semibold"> Hybrid-Ready </span> 
+                    roda em hardware comum agora, mas já está pronta para conectar com QPUs da IBM e Google no futuro.
+                  </p>
                 </div>
-                <h3 className="text-xl font-bold mb-2">Redução de Custos</h3>
-                <p className="text-gray-400">
-                  Economize até 15% em combustível e manutenção de frota com rotas matematicamente otimizadas.
-                </p>
-              </div>
 
-              {/* Feature 3 */}
-              <div className="p-6 bg-[#1f1f1f] rounded-lg border border-[#333] hover:border-purple-500 transition-colors">
-                <div className="w-12 h-12 bg-purple-900/30 rounded-full flex items-center justify-center mb-4 text-purple-400">
-                  <Play className="w-6 h-6 rotate-90" />
+                {/* Feature 3 */}
+                <div className="p-8 bg-[#1f1f1f]/50 backdrop-blur-sm rounded-xl border border-white/10 hover:border-purple-500/50 transition-all hover:bg-[#1f1f1f] group">
+                  <div className="w-14 h-14 bg-purple-900/20 rounded-lg flex items-center justify-center mb-6 text-purple-400 group-hover:scale-110 transition-transform">
+                    <Play className="w-7 h-7 rotate-90" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-3 text-white">Zero Cost Stack</h3>
+                  <p className="text-gray-400 leading-relaxed">
+                    Modelo de negócio imbatível. Usamos simuladores open-source (Qiskit/PennyLane) e infraestrutura serverless. 
+                    <span className="text-purple-400 font-semibold"> Custo de infraestrutura próximo de zero</span>, 
+                    maximizando sua margem de lucro.
+                  </p>
                 </div>
-                <h3 className="text-xl font-bold mb-2">Deploy Instantâneo</h3>
-                <p className="text-gray-400">
-                  Integração via API REST simples. Envie CSV, receba rotas. Sem infraestrutura complexa.
-                </p>
               </div>
             </div>
           </div>

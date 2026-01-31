@@ -142,10 +142,15 @@ export default function Dashboard({ data, onReset }: { data: any, onReset: () =>
                         <MapIcon className="w-4 h-4" />
                         Navegar (Google Maps)
                       </a>
-                      <button className="flex items-center gap-2 bg-[#333] hover:bg-[#444] text-white px-4 py-2 rounded text-sm font-bold transition-colors">
+                      <a 
+                        href={`https://wa.me/?text=${encodeURIComponent(`🚀 Rota Otimizada QuantumRoute\nVeículo ${route.vehicle_id}\n\n📍 Link de Navegação:\n${gmapsUrl}`)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white px-4 py-2 rounded text-sm font-bold transition-colors"
+                      >
                         <ArrowLeft className="w-4 h-4 rotate-[-45deg]" />
                         Enviar p/ Motorista
-                      </button>
+                      </a>
                     </div>
                  </div>
                  
