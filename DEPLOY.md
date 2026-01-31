@@ -1,91 +1,61 @@
-# 🚀 Guia de Deploy - QuantumRoute
+# 🚀 Guia de Deploy Oficial (QuantumRoute)
 
-Este guia descreve o passo-a-passo para colocar o QuantumRoute no ar (Produção).
-
-## 1. Pré-requisitos
-
-*   Conta no [GitHub](https://github.com/) (para hospedar o código).
-*   Conta na [Vercel](https://vercel.com/) (para o Frontend).
-*   Conta no [Render](https://render.com/) (para o Backend).
-*   Conta no [Mapbox](https://www.mapbox.com/) (para os mapas).
+Este guia cobre a publicação do projeto em ambiente de produção **Zero Cost**.
 
 ---
 
-## 2. Preparando o Código
+## 1. GitHub (Código Fonte)
 
-1.  Crie um repositório no GitHub (ex: `quantum-route`).
-2.  Suba o código do projeto para lá:
-    ```bash
-    git init
-    git add .
-    git commit -m "Initial commit"
-    git branch -M main
-    git remote add origin https://github.com/SEU_USUARIO/quantum-route.git
-    git push -u origin main
-    ```
+Primeiro, suba o código para o seu repositório.
+
+1.  Crie um novo repositório no [GitHub](https://github.com/new) chamado `quantum-route`.
+2.  No terminal do seu projeto, execute:
+
+```bash
+git remote add origin https://github.com/SEU_USUARIO/quantum-route.git
+git branch -M main
+git push -u origin main
+```
 
 ---
 
-## 3. Backend (API Python) - Hospedagem no Render
+## 2. Render (Backend Python)
 
-O Render é excelente para APIs Python/FastAPI.
+O Render vai hospedar a API FastAPI e os solvers.
 
-1.  Acesse o [Dashboard do Render](https://dashboard.render.com/).
-2.  Clique em **New +** -> **Web Service**.
+1.  Crie uma conta no [Render](https://render.com).
+2.  Clique em **"New"** -> **"Blueprints"**.
 3.  Conecte seu repositório do GitHub.
-4.  Configure:
-    *   **Name:** `quantum-route-api`
-    *   **Root Directory:** `backend` (Importante! O código Python está nessa pasta)
-    *   **Environment:** `Python 3`
-    *   **Build Command:** `pip install -r requirements.txt`
-    *   **Start Command:** `uvicorn main:app --host 0.0.0.0 --port 10000`
-5.  **Environment Variables (Variáveis de Ambiente):**
-    *   Adicione `PYTHON_VERSION` = `3.9.0` (ou superior)
-6.  Clique em **Create Web Service**.
-7.  Aguarde o deploy. Ao final, você receberá uma URL (ex: `https://quantum-route-api.onrender.com`). **Copie essa URL.**
+4.  O Render vai detectar automaticamente o arquivo `render.yaml` que criei na raiz.
+5.  Clique em **"Apply"**.
+6.  **Pronto!** Sua API estará online em alguns minutos.
+    *   Copie a URL gerada (ex: `https://quantumroute-backend.onrender.com`).
 
 ---
 
-## 4. Frontend (Next.js) - Hospedagem na Vercel
+## 3. Vercel (Frontend Next.js)
 
-A Vercel é a criadora do Next.js, então é a melhor casa para ele.
+A Vercel vai hospedar a interface visual.
 
-1.  Acesse o [Dashboard da Vercel](https://vercel.com/dashboard).
-2.  Clique em **Add New...** -> **Project**.
-3.  Importe o mesmo repositório do GitHub.
-4.  Configure:
-    *   **Framework Preset:** Next.js
-    *   **Root Directory:** Clique em Edit e selecione a pasta `frontend`.
-5.  **Environment Variables:**
-    *   `NEXT_PUBLIC_MAPBOX_TOKEN`: *Seu token público do Mapbox (pk....)*
-    *   `NEXT_PUBLIC_API_URL`: *A URL do seu Backend no Render (passo anterior)*.
-        *   *Obs: Você precisará ajustar o código do frontend para usar essa variável se ele estiver com `localhost` fixo.*
-6.  Clique em **Deploy**.
-
----
-
-## 5. Ajuste Final (Conexão Front <-> Back)
-
-Se o seu código frontend estiver apontando para `http://localhost:8000`, você precisará alterá-lo para usar a URL de produção.
-
-**No arquivo `frontend/components/UploadForm.tsx`:**
-
-De:
-```javascript
-await axios.post('http://localhost:8000/optimize', ...
-```
-
-Para:
-```javascript
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-await axios.post(`${API_URL}/optimize`, ...
-```
-
-Faça essa alteração, dê commit e push. A Vercel atualizará automaticamente.
+1.  Crie uma conta na [Vercel](https://vercel.com).
+2.  Clique em **"Add New..."** -> **"Project"**.
+3.  Importe o repositório `quantum-route`.
+4.  **Configuração Importante:**
+    *   Em **"Framework Preset"**, escolha `Next.js`.
+    *   Em **"Root Directory"**, clique em `Edit` e selecione a pasta `frontend`.
+5.  **Variáveis de Ambiente:**
+    *   Expanda a seção **"Environment Variables"**.
+    *   Adicione `NEXT_PUBLIC_API_URL` com o valor da URL do seu Backend no Render (ex: `https://quantumroute-backend.onrender.com`).
+    *   Adicione `NEXT_PUBLIC_MAPBOX_TOKEN` com o seu token do Mapbox.
+6.  Clique em **"Deploy"**.
 
 ---
 
-## 6. Teste Final
+## 🚀 Validação Final
 
-Acesse a URL que a Vercel gerou (ex: `https://quantum-route.vercel.app`).
-Seu sistema está no ar, acessível de qualquer lugar do mundo! 🌍🚀
+1.  Acesse a URL fornecida pela Vercel.
+2.  Faça o upload de um CSV de teste.
+3.  Verifique se a otimização retorna os dados do Backend.
+4.  Clique em "Enviar p/ Motorista" para testar a integração com WhatsApp.
+
+**Parabéns! Você tem um SaaS de Logística Quântica rodando.**
