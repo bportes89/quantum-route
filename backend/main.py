@@ -23,38 +23,50 @@ def read_root():
 
 @app.post("/optimize", response_model=OptimizationResult)
 async def optimize_route(file: UploadFile = File(...)):
-    content = await file.read()
-    orders, vehicles = parse_input_csv(content)
-    
-    # Run Classic Solver
-    classic_routes, classic_dist, classic_time = solve_classic_vrptw(orders, vehicles)
-    
-    # Run Quantum Solver (Simulated)
-    quantum_routes, quantum_dist, quantum_time = solve_quantum_vrptw(orders, vehicles)
-    
-    # Compare
-    # Savings: (Classic - Quantum) / Classic * 100
-    if classic_dist > 0:
-        savings = ((classic_dist - quantum_dist) / classic_dist) * 100
-    else:
-        savings = 0.0
+    try:
+        content = await file.read()
+        # Decode content if it's bytes
+        try:
+            content_str = content.decode('utf-8')
+        except UnicodeDecodeError:
+            content_str = content.decode('latin-1') # Try fallback encoding
+            
+        orders, vehicles = parse_input_csv(content)
         
-    return OptimizationResult(
-        routes=quantum_routes, # We return the "Quantum" routes (which are better or equal)
-        total_distance_km=round(quantum_dist, 2),
-        total_duration_min=round(quantum_time, 2),
-        savings_percent=round(savings, 2),
-        comparison={
-            "classic": {
-                "distance_km": round(classic_dist, 2),
-                "duration_min": round(classic_time, 2)
-            },
-            "quantum": {
-                "distance_km": round(quantum_dist, 2),
-                "duration_min": round(quantum_time, 2)
+        # Run Classic Solver
+        classic_routes, classic_dist, classic_time = solve_classic_vrptw(orders, vehicles)
+        
+        # Run Quantum Solver (Simulated)
+        quantum_routes, quantum_dist, quantum_time = solve_quantum_vrptw(orders, vehicles)
+        
+        # Compare
+        # Savings: (Classic - Quantum) / Classic * 100
+        if classic_dist > 0:
+            savings = ((classic_dist - quantum_dist) / classic_dist) * 100
+        else:
+            savings = 0.0
+            
+        return OptimizationResult(
+            routes=quantum_routes, # We return the "Quantum" routes (which are better or equal)
+            total_distance_km=round(quantum_dist, 2),
+            total_duration_min=round(quantum_time, 2),
+            savings_percent=round(savings, 2),
+            comparison={
+                "classic": {
+                    "distance_km": round(classic_dist, 2),
+                    "duration_min": round(classic_time, 2)
+                },
+                "quantum": {
+                    "distance_km": round(quantum_dist, 2),
+                    "duration_min": round(quantum_time, 2)
+                }
             }
-        }
-    )
+        )
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        from fastapi import HTTPException
+        raise HTTPException(status_code=500, detail=f"Internal Server Error: {str(e)}")
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
