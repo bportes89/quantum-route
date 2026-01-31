@@ -44,8 +44,9 @@ def solve_classic_vrptw(orders: List[Order], vehicles: List[Vehicle]):
         
     distance_matrix = create_distance_matrix(locations)
     
-    # Time Matrix: assume 40km/h => 1km = 1.5 min
-    time_matrix = (distance_matrix * 1.5).astype(int) # integers for OR-Tools
+    # Time Matrix: assume 60km/h average speed for long distances
+    # 1 km = 1 minute (approx) to be safer
+    time_matrix = (distance_matrix * 1.0).astype(int) # integers for OR-Tools
     
     data = {}
     data['time_matrix'] = time_matrix
@@ -61,11 +62,22 @@ def solve_classic_vrptw(orders: List[Order], vehicles: List[Vehicle]):
     
     # Time Windows
     # Convert "08:00" to minutes from 00:00
-    # Depot time window: Assume 00:00 to 23:59 (0 to 1440)
-    time_windows = [(0, 1440)] 
+    # Depot time window: Allow full week operation (0 to 10080 minutes)
+    HORIZON = 10080 # 7 days
+    time_windows = [(0, HORIZON)] 
     for order in orders:
+        # If time window is tight but distance is huge, this breaks.
+        # For this MVP, let's relax the windows if they are too strict compared to distance
+        # Or simply trust the user input.
         start = parse_time_to_minutes(order.time_start)
         end = parse_time_to_minutes(order.time_end)
+        
+        # FIX: If end < start (e.g. crossing midnight or input error), fix it
+        if end < start:
+            end += 1440
+            
+        # FIX: For long haul, we might want to ignore strict windows if they cause failure
+        # But let's keep them for now, just increasing the global horizon.
         time_windows.append((start, end))
         
     data['time_windows'] = time_windows
@@ -104,8 +116,8 @@ def solve_classic_vrptw(orders: List[Order], vehicles: List[Vehicle]):
     # 6. Add Time Window Constraint
     routing.AddDimension(
         transit_callback_index,
-        30,  # allow waiting time
-        1440,  # maximum time per vehicle
+        HORIZON,  # allow waiting time (slack) up to horizon
+        HORIZON,  # maximum time per vehicle (7 days)
         False,  # Don't force start cumul to zero
         'Time')
     time_dimension = routing.GetDimensionOrDie('Time')
