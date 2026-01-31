@@ -61,6 +61,10 @@ async def optimize_route(file: UploadFile = File(...)):
             
         orders, vehicles = parse_input_csv(content_str)
         
+        if not orders or not vehicles:
+            from fastapi import HTTPException
+            raise HTTPException(status_code=400, detail="Erro ao processar CSV. Verifique se há pedidos e veículos válidos e se o separador está correto (',' ou ';').")
+
         # Run Classic Solver
         classic_routes, classic_dist, classic_time = solve_classic_vrptw(orders, vehicles)
         
